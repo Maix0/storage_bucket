@@ -7,4 +7,4 @@ You can have a FileSystem reading when debuging and putting every thing in a zip
 
 # License
 
-Written under the MIT lisence
+Written under the MIT license
