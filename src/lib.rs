@@ -6,6 +6,8 @@ pub mod zip;
 
 use std::path::Path;
 
+/// Something that will house your files
+
 pub trait ReadBucket {
     fn has_file(&self, path: &Path) -> bool;
     fn get_file(
@@ -14,21 +16,25 @@ pub trait ReadBucket {
     ) -> Result<Option<Box<dyn std::io::Read + '_>>, Box<dyn std::error::Error>>;
 }
 
-pub struct StorageBuckets {
+/// The main API of this crate, it will do the work when searching for a file
+pub struct BucketsList {
     inner_read: Vec<Box<dyn ReadBucket>>,
 }
 
-impl StorageBuckets {
+impl BucketsList {
+    /// Create a new empty List of `ReadBucket`
     pub fn new() -> Self {
         Self {
             inner_read: Vec::new(),
         }
     }
 
+    /// Append a new `ReadBucket` to the list
     pub fn push_read_bucket(&mut self, bucket: Box<dyn ReadBucket>) {
         self.inner_read.push(bucket)
     }
 
+    /// Check if the given path match any file on every Buckets
     pub fn has_file<A: AsRef<Path>>(&self, path: A) -> bool {
         for bucket in &self.inner_read {
             if bucket.has_file(path.as_ref()) {
@@ -37,6 +43,8 @@ impl StorageBuckets {
         }
         return false;
     }
+
+    /// Get the file from the `ReadBucket`
     pub fn get_file(
         &mut self,
         path: impl AsRef<Path>,

@@ -5,7 +5,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         env!("CARGO_MANIFEST_DIR"),
         "/examples/zip_bucket.zip"
     ))?;
-    let mut storage = storage_bucket::StorageBuckets::new();
+    let mut storage = storage_bucket::BucketsList::new();
     storage.push_read_bucket(Box::new(zip_bucket));
 
     assert!(storage.has_file("zip1"));

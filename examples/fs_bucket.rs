@@ -1,7 +1,7 @@
 extern crate storage_bucket;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut storage = storage_bucket::StorageBuckets::new();
+    let mut storage = storage_bucket::BucketsList::new();
 
     storage.push_read_bucket(Box::new(storage_bucket::fs::FsBucket::new(concat!(
         env!("CARGO_MANIFEST_DIR"),

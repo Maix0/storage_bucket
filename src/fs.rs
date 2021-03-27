@@ -1,17 +1,20 @@
 use std::path::{Path, PathBuf};
 
 #[derive(Debug, Clone)]
+/// A ReadBucket that will read the file from disk with the given path as a base
 pub struct FsBucket {
     base_path: std::path::PathBuf,
 }
 
 impl FsBucket {
+    /// Create a new `FsBucket` with the given base path
     pub fn new<P: AsRef<Path>>(base_path: P) -> Self {
         Self {
             base_path: base_path.as_ref().to_path_buf(),
         }
     }
 
+    // Transform the given path to a relative path and create a new path with the base path
     fn transform_path(&self, path: &Path) -> PathBuf {
         let mut base_path = self.base_path.clone();
         if path.starts_with("/") {
